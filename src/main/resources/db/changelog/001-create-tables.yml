@@ -1,0 +1,69 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: mikablondo
+      changes:
+        - createTable:
+            tableName: utilisateur
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: nom
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: prenom
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: age
+                  type: INT
+              - column:
+                  name: metier
+                  type: VARCHAR(255)
+
+  - changeSet:
+      id: 2
+      author: mikablondo
+      changes:
+        - createTable:
+            tableName: langage
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: nom
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 3
+      author: mikablondo
+      changes:
+        - createTable:
+            tableName: utilisateur_langage
+            columns:
+              - column:
+                  name: utilisateur_id
+                  type: BIGINT
+              - column:
+                  name: langage_id
+                  type: BIGINT
+              - column:
+                  name: note
+                  type: INT
+            constraints:
+              primaryKey:
+                columns: "utilisateur_id, langage_id"

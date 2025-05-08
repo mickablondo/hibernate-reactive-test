@@ -1,0 +1,125 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: mikablondo
+      changes:
+        - insert:
+            tableName: utilisateur
+            columns:
+              - column:
+                  name: nom
+                  value: "Blondo"
+              - column:
+                  name: prenom
+                  value: "MiK@"
+              - column:
+                  name: age
+                  value: 40
+              - column:
+                  name: metier
+                  value: "Lead Dev"
+
+  - changeSet:
+      id: 5
+      author: mikablondo
+      changes:
+        - insert:
+            tableName: utilisateur
+            columns:
+              - column:
+                  name: nom
+                  value: "Martin"
+              - column:
+                  name: prenom
+                  value: "Lucie"
+              - column:
+                  name: age
+                  value: 28
+              - column:
+                  name: metier
+                  value: "Développeur Python"
+
+  - changeSet:
+      id: 6
+      author: mikablondo
+      changes:
+        - insert:
+            tableName: langage
+            columns:
+              - column:
+                  name: nom
+                  value: "Java"
+        - insert:
+            tableName: langage
+            columns:
+              - column:
+                  name: nom
+                  value: "Python"
+        - insert:
+            tableName: langage
+            columns:
+              - column:
+                  name: nom
+                  value: "Solidity"
+        - insert:
+            tableName: langage
+            columns:
+              - column:
+                  name: nom
+                  value: "JavaScript"
+
+  - changeSet:
+      id: 7
+      author: mikablondo
+      changes:
+        - insert:
+            tableName: utilisateur_langage
+            columns:
+              - column:
+                  name: utilisateur_id
+                  value: 1
+              - column:
+                  name: langage_id
+                  value: 1
+              - column:
+                  name: note
+                  value: 7
+
+        - insert:
+            tableName: utilisateur_langage
+            columns:
+              - column:
+                  name: utilisateur_id
+                  value: 1
+              - column:
+                  name: langage_id
+                  value: 3
+              - column:
+                  name: note
+                  value: 5
+
+        - insert:
+            tableName: utilisateur_langage
+            columns:
+              - column:
+                  name: utilisateur_id
+                  value: 1
+              - column:
+                  name: langage_id
+                  value: 4
+              - column:
+                  name: note
+                  value: 6
+
+        - insert:
+            tableName: utilisateur_langage
+            columns:
+              - column:
+                  name: utilisateur_id
+                  value: 2
+              - column:
+                  name: langage_id
+                  value: 2
+              - column:
+                  name: note
+                  value: 8
