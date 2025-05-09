@@ -1,2 +1,2 @@
 # hibernate-reactive-test
-Testing hibernate reactive with h2
+Testing hibernate reactive with testcontainers.postgresql.
