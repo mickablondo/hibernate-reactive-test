@@ -1,4 +1,4 @@
-package dev.mikablondo.hibernate_reactive_test.application.configuration;
+package dev.mikablondo.hibernate_reactive_test.configuration;
 
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
