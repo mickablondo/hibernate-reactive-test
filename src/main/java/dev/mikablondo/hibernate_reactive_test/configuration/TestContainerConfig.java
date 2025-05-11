@@ -1,4 +1,4 @@
-package dev.mikablondo.hibernate_reactive_test.application.configuration;
+package dev.mikablondo.hibernate_reactive_test.configuration;
 
 import jakarta.annotation.PostConstruct;
 import lombok.extern.log4j.Log4j2;
