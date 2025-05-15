@@ -1,6 +1,7 @@
 package dev.mikablondo.hibernate_reactive_test.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,6 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "utilisateur")
+@Getter
 public class UserEntity {
 
     @Id

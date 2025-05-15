@@ -13,7 +13,12 @@ public class UserService {
     private final UserRepository userRepository;
 
     public Multi<User> getAllUsers() {
-        return Multi.createFrom().items(new User("John", "Doe", "toto@toto.com"),
-                new User("Jane", "Doe", "tata@toto.com"));
+        return userRepository.findAll()
+                .onItem().transform(userEntity -> User.builder()
+                        .nom(userEntity.getNom())
+                        .prenom(userEntity.getPrenom())
+                        .age(userEntity.getAge())
+                        .metier(userEntity.getMetier())
+                        .build());
     }
 }
