@@ -19,7 +19,7 @@ public class UserRepository {
      */
     public Multi<UserEntity> findAll() {
         return sessionFactory.withSession(session ->
-                session.createQuery("from User", UserEntity.class)
+                session.createQuery("from UserEntity", UserEntity.class)
                         .getResultList()
         ).onItem().transformToMulti(users -> Multi.createFrom().iterable(users));
     }
