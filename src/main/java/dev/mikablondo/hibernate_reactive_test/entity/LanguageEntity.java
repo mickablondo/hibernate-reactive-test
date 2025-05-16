@@ -6,6 +6,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * This class represents a Language entity in the database.
+ * It contains fields for the language's ID, name, and a set of associated UserLanguage entities.
+ * The class is annotated with @Entity to indicate that it is a JPA entity.
+ * It is also annotated with @Table to specify the table name in the database.
+ */
 @Entity
 @Table(name = "langage")
 public class LanguageEntity {

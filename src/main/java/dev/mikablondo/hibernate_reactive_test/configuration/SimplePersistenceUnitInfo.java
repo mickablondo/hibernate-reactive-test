@@ -12,6 +12,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
+/**
+ * This class implements the PersistenceUnitInfo interface for Hibernate Reactive.
+ * It provides basic information about the persistence unit, such as its name and managed classes.
+ * It is used to create a Mutiny SessionFactory bean for Hibernate Reactive.
+ */
 public class SimplePersistenceUnitInfo implements PersistenceUnitInfo {
 
     private final String persistenceUnitName;

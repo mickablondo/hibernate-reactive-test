@@ -2,6 +2,12 @@ package dev.mikablondo.hibernate_reactive_test.entity;
 
 import jakarta.persistence.*;
 
+/**
+ * This class represents a UserLanguage entity in the database.
+ * It contains fields for the associated User and Language entities, as well as a rating (note).
+ * The class is annotated with @Entity to indicate that it is a JPA entity.
+ * It is also annotated with @Table to specify the table name in the database.
+ */
 @Entity
 @Table(name = "utilisateur_langage")
 @IdClass(UserLanguageId.class)

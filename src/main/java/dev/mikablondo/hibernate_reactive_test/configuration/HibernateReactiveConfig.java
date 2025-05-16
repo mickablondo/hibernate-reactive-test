@@ -21,11 +21,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * This class configures Hibernate Reactive with Liquibase for database migrations.
+ * It creates a Mutiny SessionFactory bean for managing database sessions.
+ * TODO : utiliser @Value pour injecter les propriétés
+ */
 @Configuration
 public class HibernateReactiveConfig {
 
-
+    /**
+     * This method creates a Mutiny SessionFactory bean for Hibernate Reactive.
+     * It uses Liquibase to run database migrations and configures the Hibernate settings.
+     *
+     * @return a Mutiny SessionFactory
+     * @throws LiquibaseException if an error occurs while running Liquibase
+     */
     @Bean
     public Mutiny.SessionFactory sessionFactory() throws LiquibaseException {
         String host = TestContainerConfig.POSTGRES_CONTAINER.getHost();
@@ -35,7 +45,7 @@ public class HibernateReactiveConfig {
         // Appel Liquibase en JDBC
         runLiquibaseMigrations(jdbcUrl, "test", "test");
 
-        // Hibernate reactive config
+        // Config Hibernate reactive
         Map<String, Object> settings = getStringObjectMap(host, port);
 
         PersistenceUnitInfo info = new SimplePersistenceUnitInfo(

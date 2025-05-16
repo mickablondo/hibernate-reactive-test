@@ -4,6 +4,12 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * This class represents a composite key for the UserLanguage entity.
+ * It implements Serializable to allow it to be used as a primary key in JPA.
+ * The class contains two fields: utilisateur and langage, which are both UUIDs.
+ * It also overrides the equals and hashCode methods to ensure proper comparison and hashing.
+ */
 public class UserLanguageId implements Serializable {
     private UUID utilisateur;
     private UUID langage;

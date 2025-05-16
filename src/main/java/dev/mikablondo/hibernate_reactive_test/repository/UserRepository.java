@@ -6,6 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.reactive.mutiny.Mutiny;
 import org.springframework.stereotype.Repository;
 
+/**
+ * This class is a repository for managing UserEntity objects.
+ * It uses Hibernate Reactive to perform database operations in a non-blocking way.
+ * The repository is annotated with @Repository to indicate that it is a Spring Data repository.
+ */
 @Repository
 @RequiredArgsConstructor
 public class UserRepository {
