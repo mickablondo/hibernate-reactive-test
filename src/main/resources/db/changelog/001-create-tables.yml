@@ -2,6 +2,7 @@ databaseChangeLog:
   - changeSet:
       id: 1
       author: mikablondo
+      context: dev
       changes:
         - createTable:
             tableName: utilisateur
@@ -31,6 +32,7 @@ databaseChangeLog:
 
   - changeSet:
       id: 2
+      context: dev
       author: mikablondo
       changes:
         - createTable:
@@ -50,6 +52,7 @@ databaseChangeLog:
 
   - changeSet:
       id: 3
+      context: dev
       author: mikablondo
       changes:
         - createTable:

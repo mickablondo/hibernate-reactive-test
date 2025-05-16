@@ -1,6 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: 4
+      context: dev
       author: mikablondo
       changes:
         - insert:
@@ -21,6 +22,7 @@ databaseChangeLog:
 
   - changeSet:
       id: 5
+      context: dev
       author: mikablondo
       changes:
         - insert:
@@ -41,6 +43,7 @@ databaseChangeLog:
 
   - changeSet:
       id: 6
+      context: dev
       author: mikablondo
       changes:
         - insert:
@@ -70,6 +73,7 @@ databaseChangeLog:
 
   - changeSet:
       id: 7
+      context: dev
       author: mikablondo
       changes:
         - insert:

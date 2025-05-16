@@ -4,7 +4,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 
 public class TestContainerConfig {
 
-    private static final PostgreSQLContainer<?> POSTGRES_CONTAINER;
+    public static final PostgreSQLContainer<?> POSTGRES_CONTAINER;
 
     static {
         // TODO use @Value to inject the properties

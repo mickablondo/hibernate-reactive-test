@@ -50,12 +50,12 @@ public class SimplePersistenceUnitInfo implements PersistenceUnitInfo {
 
     @Override
     public SharedCacheMode getSharedCacheMode() {
-        return null;
+        return SharedCacheMode.ENABLE_SELECTIVE;
     }
 
     @Override
     public ValidationMode getValidationMode() {
-        return null;
+        return ValidationMode.AUTO;
     }
 
     @Override public Properties getProperties() { return new Properties(); }
