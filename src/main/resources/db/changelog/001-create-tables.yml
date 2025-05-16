@@ -9,7 +9,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: BIGINT
+                  type: UUID
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -40,7 +40,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: BIGINT
+                  type: UUID
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -60,10 +60,10 @@ databaseChangeLog:
             columns:
               - column:
                   name: utilisateur_id
-                  type: BIGINT
+                  type: UUID
               - column:
                   name: langage_id
-                  type: BIGINT
+                  type: UUID
               - column:
                   name: note
                   type: INT
