@@ -3,10 +3,11 @@ package dev.mikablondo.hibernate_reactive_test.controller;
 import dev.mikablondo.hibernate_reactive_test.services.UserService;
 import dev.mikablondo.hibernate_reactive_test.dto.User;
 import io.smallrye.mutiny.Multi;
+import io.smallrye.mutiny.Uni;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * This class is a REST controller for managing User entities.
@@ -23,5 +24,11 @@ public class UserController {
     @GetMapping
     public Multi<User> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @PostMapping
+    public Uni<ResponseEntity<Void>> createUser(@RequestBody User user) {
+        return userService.createUser(user)
+                .map(v -> ResponseEntity.status(HttpStatus.CREATED).build());
     }
 }
