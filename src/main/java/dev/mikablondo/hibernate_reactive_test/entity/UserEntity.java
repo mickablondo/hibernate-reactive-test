@@ -1,9 +1,11 @@
 package dev.mikablondo.hibernate_reactive_test.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -16,6 +18,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "utilisateur")
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity {
 
     @Id
@@ -32,6 +37,5 @@ public class UserEntity {
     private String metier;
 
     @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<UserLanguageEntity> langages = new HashSet<>();
-
+    private Set<UserLanguageEntity> langages;
 }
