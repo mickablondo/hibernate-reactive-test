@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.reactive.mutiny.Mutiny;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 /**
  * This class is a repository for managing UserEntity objects.
  * It uses Hibernate Reactive to perform database operations in a non-blocking way.
@@ -42,5 +44,33 @@ public class UserRepository {
                         .onItem().invoke(() -> System.out.println("User created: " + entity))
                         .onFailure().invoke((Throwable t) -> System.err.println("Failed to create user: " + t.getMessage()))
         ).replaceWithVoid();
+    }
+
+    /**
+     * This method retrieves a user by its UUID from the database.
+     *
+     * @param uuid the UUID of the user to be retrieved
+     * @return a Uni<UserEntity> containing the user entity if found, or null if not found
+     */
+    public Uni<UserEntity> findById(UUID uuid) {
+        return sessionFactory.withTransaction((session, tx) ->
+                session.find(UserEntity.class, uuid)
+                        .onItem().invoke(user -> System.out.println("User found: " + user))
+                        .onFailure().invoke((Throwable t) -> System.err.println("Failed to find user: " + t.getMessage()))
+        );
+    }
+
+    /**
+     * This method deletes a user by its ID from the database.
+     *
+     * @param userId the ID of the user to be deleted
+     * @return a Uni<Boolean> indicating if user is deleted successfully or not
+     */
+    public Uni<Boolean> deleteUser(UUID userId) {
+        return sessionFactory.withTransaction((session, tx) ->
+                session.find(UserEntity.class, userId)
+                        .onItem().ifNotNull().transformToUni(user -> session.remove(user).replaceWith(true))
+                        .onItem().ifNull().continueWith(false)
+        );
     }
 }

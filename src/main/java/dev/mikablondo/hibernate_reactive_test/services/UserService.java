@@ -29,6 +29,7 @@ public class UserService {
     public Multi<User> getAllUsers() {
         return userRepository.findAll()
                 .onItem().transform(userEntity -> User.builder()
+                        .id(userEntity.getId())
                         .nom(userEntity.getNom())
                         .prenom(userEntity.getPrenom())
                         .age(userEntity.getAge())
@@ -50,5 +51,15 @@ public class UserService {
                         .age(user.getAge())
                         .metier(user.getMetier())
                         .build());
+    }
+
+    /**
+     * This method deletes a user from the database.
+     *
+     * @param id the ID of the user to be deleted
+     * @return a Uni<Boolean> indicating if user is deleted successfully or not
+     */
+    public Uni<Boolean> deleteUser(UUID id) {
+        return userRepository.deleteUser(id);
     }
 }

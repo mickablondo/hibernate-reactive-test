@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.UUID;
+
 /**
  * This class represents a User DTO (Data Transfer Object).
  * It contains fields for the user's name, surname, age, and profession.
@@ -14,6 +16,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class User {
+    private UUID id;
     private String nom;
     private String prenom;
     private int age;
