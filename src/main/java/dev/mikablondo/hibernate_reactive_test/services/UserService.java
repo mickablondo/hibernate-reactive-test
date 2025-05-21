@@ -62,4 +62,44 @@ public class UserService {
     public Uni<Boolean> deleteUser(UUID id) {
         return userRepository.deleteUser(id);
     }
+
+    /**
+     * This method retrieves a user by its UUID from the database.
+     *
+     * @param uuid the UUID of the user to be retrieved
+     * @return a Uni<User> containing the user DTO if found, or null if not found
+     */
+    public Uni<User> getUserById(UUID uuid) {
+        return userRepository.findById(uuid)
+                .onItem().transform(userEntity -> {
+                    if (userEntity != null) {
+                        return User.builder()
+                                .id(userEntity.getId())
+                                .nom(userEntity.getNom())
+                                .prenom(userEntity.getPrenom())
+                                .age(userEntity.getAge())
+                                .metier(userEntity.getMetier())
+                                .build();
+                    } else {
+                        return null;
+                    }
+                });
+    }
+
+    /**
+     * This method retrieves users by their name from the database.
+     *
+     * @param nom the name of the users to be retrieved
+     * @return a Multi stream of User DTO objects
+     */
+    public Multi<User> getUsersByNom(String nom) {
+        return userRepository.findAll(nom)
+                .onItem().transform(userEntity -> User.builder()
+                        .id(userEntity.getId())
+                        .nom(userEntity.getNom())
+                        .prenom(userEntity.getPrenom())
+                        .age(userEntity.getAge())
+                        .metier(userEntity.getMetier())
+                        .build());
+    }
 }
