@@ -24,7 +24,10 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public Multi<User> getAllUsers() {
+    public Multi<User> getUsersByNom(@RequestParam(required = false) String nom) {
+        if (nom != null) {
+            return userService.getUsersByNom(nom);
+        }
         return userService.getAllUsers();
     }
 

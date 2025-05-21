@@ -85,4 +85,21 @@ public class UserService {
                     }
                 });
     }
+
+    /**
+     * This method retrieves users by their name from the database.
+     *
+     * @param nom the name of the users to be retrieved
+     * @return a Multi stream of User DTO objects
+     */
+    public Multi<User> getUsersByNom(String nom) {
+        return userRepository.findAll(nom)
+                .onItem().transform(userEntity -> User.builder()
+                        .id(userEntity.getId())
+                        .nom(userEntity.getNom())
+                        .prenom(userEntity.getPrenom())
+                        .age(userEntity.getAge())
+                        .metier(userEntity.getMetier())
+                        .build());
+    }
 }

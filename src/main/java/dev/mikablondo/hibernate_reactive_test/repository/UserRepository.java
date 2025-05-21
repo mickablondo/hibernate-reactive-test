@@ -33,6 +33,20 @@ public class UserRepository {
     }
 
     /**
+     * This method retrieves all users with a specific name from the database.
+     *
+     * @param nom the name of the users to be retrieved
+     * @return a Multi stream of UserEntity objects
+     */
+    public Multi<UserEntity> findAll(String nom) {
+        return sessionFactory.withSession(session ->
+                session.createQuery("from UserEntity where lower(nom) = :nom", UserEntity.class)
+                        .setParameter("nom", nom.toLowerCase())
+                        .getResultList()
+        ).onItem().transformToMulti(users -> Multi.createFrom().iterable(users));
+    }
+
+    /**
      * This method creates a new user in the database.
      *
      * @param entity the UserEntity object to be created
