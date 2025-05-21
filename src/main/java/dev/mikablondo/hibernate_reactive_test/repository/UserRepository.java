@@ -1,5 +1,6 @@
 package dev.mikablondo.hibernate_reactive_test.repository;
 
+import dev.mikablondo.hibernate_reactive_test.dto.UserFilter;
 import dev.mikablondo.hibernate_reactive_test.entity.UserEntity;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
@@ -23,27 +24,27 @@ public class UserRepository {
     /**
      * This method retrieves all users from the database.
      *
+     * @param filtre the filter criteria for retrieving users
      * @return a Multi stream of UserEntity objects
      */
-    public Multi<UserEntity> findAll() {
-        return sessionFactory.withSession(session ->
-                session.createQuery("from UserEntity", UserEntity.class)
-                        .getResultList()
-        ).onItem().transformToMulti(users -> Multi.createFrom().iterable(users));
-    }
+    public Multi<UserEntity> findByFiltre(UserFilter filtre) {
+        return sessionFactory.withSession(session -> {
+            StringBuilder query = new StringBuilder("from UserEntity where 1=1");
+            if (filtre.getNom() != null) query.append(" and lower(nom) = :nom");
+            if (filtre.getPrenom() != null) query.append(" and lower(prenom) = :prenom");
+            if (filtre.getAgeMin() != null) query.append(" and age >= :ageMin");
+            if (filtre.getAgeMax() != null) query.append(" and age <= :ageMax");
+            if (filtre.getMetier() != null) query.append(" and lower(metier) = :metier");
 
-    /**
-     * This method retrieves all users with a specific name from the database.
-     *
-     * @param nom the name of the users to be retrieved
-     * @return a Multi stream of UserEntity objects
-     */
-    public Multi<UserEntity> findAll(String nom) {
-        return sessionFactory.withSession(session ->
-                session.createQuery("from UserEntity where lower(nom) = :nom", UserEntity.class)
-                        .setParameter("nom", nom.toLowerCase())
-                        .getResultList()
-        ).onItem().transformToMulti(users -> Multi.createFrom().iterable(users));
+            var hQuery = session.createQuery(query.toString(), UserEntity.class);
+            if (filtre.getNom() != null) hQuery.setParameter("nom", filtre.getNom().toLowerCase());
+            if (filtre.getPrenom() != null) hQuery.setParameter("prenom", filtre.getPrenom().toLowerCase());
+            if (filtre.getAgeMin() != null) hQuery.setParameter("ageMin", filtre.getAgeMin());
+            if (filtre.getAgeMax() != null) hQuery.setParameter("ageMax", filtre.getAgeMax());
+            if (filtre.getMetier() != null) hQuery.setParameter("metier", filtre.getMetier().toLowerCase());
+
+            return hQuery.getResultList();
+        }).onItem().transformToMulti(users -> Multi.createFrom().iterable(users));
     }
 
     /**

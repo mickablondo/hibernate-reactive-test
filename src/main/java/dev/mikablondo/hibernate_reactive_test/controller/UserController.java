@@ -1,6 +1,7 @@
 package dev.mikablondo.hibernate_reactive_test.controller;
 
 import dev.mikablondo.hibernate_reactive_test.dto.User;
+import dev.mikablondo.hibernate_reactive_test.dto.UserFilter;
 import dev.mikablondo.hibernate_reactive_test.services.UserService;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
@@ -24,11 +25,8 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public Multi<User> getUsers(@RequestParam(required = false) String nom) {
-        if (nom != null) {
-            return userService.getUsersByNom(nom);
-        }
-        return userService.getAllUsers();
+    public Multi<User> getUsers(UserFilter filtre) {
+        return userService.getUsers(filtre);
     }
 
     @PostMapping
