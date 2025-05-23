@@ -1,6 +1,7 @@
 package dev.mikablondo.hibernate_reactive_test.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +14,7 @@ import java.util.UUID;
  * It is also annotated with @Table to specify the table name in the database.
  */
 @Entity
+@Builder
 @Table(name = "langage")
 public class LanguageEntity {
     @Id
