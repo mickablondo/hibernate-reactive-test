@@ -1,13 +1,16 @@
 package dev.mikablondo.hibernate_reactive_test.services;
 
 import dev.mikablondo.hibernate_reactive_test.dto.Language;
+import dev.mikablondo.hibernate_reactive_test.dto.User;
 import dev.mikablondo.hibernate_reactive_test.entity.LanguageEntity;
 import dev.mikablondo.hibernate_reactive_test.repository.LanguageRepository;
+import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * This class is a service for managing Language entities.
@@ -31,5 +34,26 @@ public class LanguageService {
                 .id(UUID.randomUUID())
                 .nom(language.getNom())
                 .build());
+    }
+
+    /**
+     * This method retrieves all languages from the database.
+     *
+     * @return a Multi<Language> containing all languages
+     */
+    public Multi<Language> getAllLanguages() {
+        return languageRepository.getAllLanguages()
+                .onItem().transform(languageEntity -> Language.builder()
+                        .id(languageEntity.getId())
+                        .nom(languageEntity.getNom())
+                        .utilisateurs(languageEntity.getUtilisateurs()
+                                .stream()
+                                .map(userLanguage -> User.builder()
+                                        .id(userLanguage.getUtilisateur().getId())
+                                        .nom(userLanguage.getUtilisateur().getNom())
+                                        .age(userLanguage.getUtilisateur().getAge())
+                                        .build())
+                                .collect(Collectors.toSet()))
+                        .build());
     }
 }
