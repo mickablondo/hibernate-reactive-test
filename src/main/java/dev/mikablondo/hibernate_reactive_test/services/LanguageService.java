@@ -30,7 +30,6 @@ public class LanguageService {
         return languageRepository.createLanguage(LanguageEntity.builder()
                 .id(UUID.randomUUID())
                 .nom(language.getNom())
-                //.utilisateurs() TODO: Set<User> utilisateurs
                 .build());
     }
 }
