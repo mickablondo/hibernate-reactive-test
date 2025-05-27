@@ -88,4 +88,16 @@ public class UserRepository {
                         .onItem().ifNull().continueWith(false)
         );
     }
+
+    /**
+     * This method retrieves all users with their associated programming languages and notes.
+     *
+     * @return a Multi stream of UserEntity objects with their languages and notes
+     */
+    public Multi<UserEntity> findUsersWithLangages() {
+        return sessionFactory.withSession(session ->
+            session.createQuery("select distinct u from UserEntity u left join fetch u.langages", UserEntity.class)
+                .getResultList()
+        ).onItem().transformToMulti(users -> Multi.createFrom().iterable(users));
+    }
 }
