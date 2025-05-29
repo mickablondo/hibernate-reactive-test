@@ -2,6 +2,7 @@ package dev.mikablondo.hibernate_reactive_test.controller;
 
 import dev.mikablondo.hibernate_reactive_test.dto.User;
 import dev.mikablondo.hibernate_reactive_test.dto.UserFilter;
+import dev.mikablondo.hibernate_reactive_test.dto.UserWithLangagesDTO;
 import dev.mikablondo.hibernate_reactive_test.services.UserService;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
@@ -59,5 +60,10 @@ public class UserController {
         } catch (IllegalArgumentException e) {
             return Uni.createFrom().item(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
         }
+    }
+
+    @GetMapping("/notes")
+    public Multi<UserWithLangagesDTO> getUsersWithNotes() {
+        return userService.getUsersWithNotes();
     }
 }

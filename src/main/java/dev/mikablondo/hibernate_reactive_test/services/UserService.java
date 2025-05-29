@@ -2,6 +2,7 @@ package dev.mikablondo.hibernate_reactive_test.services;
 
 import dev.mikablondo.hibernate_reactive_test.dto.User;
 import dev.mikablondo.hibernate_reactive_test.dto.UserFilter;
+import dev.mikablondo.hibernate_reactive_test.dto.UserWithLangagesDTO;
 import dev.mikablondo.hibernate_reactive_test.entity.UserEntity;
 import dev.mikablondo.hibernate_reactive_test.repository.UserRepository;
 import io.smallrye.mutiny.Multi;
@@ -85,5 +86,15 @@ public class UserService {
                         return null;
                     }
                 });
+    }
+
+    /**
+     * This method retrieves users along with their associated languages and notes.
+     *
+     * @return a Multi stream of UserWithLangagesDTO objects
+     */
+    public Multi<UserWithLangagesDTO> getUsersWithNotes() {
+        return userRepository.findUsersWithLangages()
+                .onItem().transform(UserWithLangagesDTO::from);
     }
 }
