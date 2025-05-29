@@ -105,4 +105,23 @@ public class UserRepository {
                         .getResultList()
         ).onItem().transformToMulti(Multi.createFrom()::iterable);
     }
+
+    /**
+     * This method retrieves a user with its associated programming languages and notes.
+     *
+     * @return a Uni<UserEntity> containing the user entity with its languages and notes
+     */
+    public Uni<UserEntity> findUserWithLangages(String id) {
+        return sessionFactory.withSession(session ->
+                session.createQuery("""
+                                    select distinct u
+                                    from UserEntity u
+                                    left join fetch u.langages ul
+                                    left join fetch ul.langage
+                                    where u.id = :id
+                                """, UserEntity.class)
+                        .setParameter("id", UUID.fromString(id))
+                        .getSingleResultOrNull()
+        ).onItem().ifNotNull().transformToUni(user -> Uni.createFrom().item(user));
+    }
 }

@@ -97,4 +97,14 @@ public class UserService {
         return userRepository.findUsersWithLangages()
                 .onItem().transform(UserWithLangagesDTO::from);
     }
+
+    /**
+     * This method retrieves a user with its associated languages and notes by its ID.
+     *
+     * @return a Uni<UserWithLangagesDTO> containing the user with languages and notes
+     */
+    public Uni<UserWithLangagesDTO> getUserWithNotes(String id) {
+        return userRepository.findUserWithLangages(id)
+                .onItem().transform(UserWithLangagesDTO::from);
+    }
 }
