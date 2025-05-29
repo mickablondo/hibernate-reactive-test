@@ -96,8 +96,13 @@ public class UserRepository {
      */
     public Multi<UserEntity> findUsersWithLangages() {
         return sessionFactory.withSession(session ->
-            session.createQuery("select distinct u from UserEntity u left join fetch u.langages", UserEntity.class)
-                .getResultList()
-        ).onItem().transformToMulti(users -> Multi.createFrom().iterable(users));
+                session.createQuery("""
+                                    select distinct u
+                                    from UserEntity u
+                                    left join fetch u.langages ul
+                                    left join fetch ul.langage
+                                """, UserEntity.class)
+                        .getResultList()
+        ).onItem().transformToMulti(Multi.createFrom()::iterable);
     }
 }
