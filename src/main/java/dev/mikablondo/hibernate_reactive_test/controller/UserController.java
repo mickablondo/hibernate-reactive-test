@@ -66,4 +66,9 @@ public class UserController {
     public Multi<UserWithLangagesDTO> getUsersWithNotes() {
         return userService.getUsersWithNotes();
     }
+
+    @GetMapping("/{id}/notes")
+    public Uni<UserWithLangagesDTO> getUserWithNotes(@PathVariable String id) {
+        return userService.getUserWithNotes(id);
+    }
 }
