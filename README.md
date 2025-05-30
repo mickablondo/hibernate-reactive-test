@@ -6,3 +6,6 @@ Java 21 / Spring Boot 3 / [Hibernate Reactive](https://hibernate.org/reactive/) 
 
 ## Prerequisites
 [Docker](https://www.docker.com/products/docker-desktop)
+
+## Swagger
+Run the application and open [http://localhost:8080/hibernate-reactive-test/webjars/swagger-ui/index.html](http://localhost:8080/hibernate-reactive-test/webjars/swagger-ui/index.html) to see the API documentation.
