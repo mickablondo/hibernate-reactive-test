@@ -140,22 +140,22 @@ public class UserRepository {
     public Uni<Void> addOrUpdateNote(UUID userId, UUID languageId, Integer note) {
         return sessionFactory.withTransaction((session, tx) ->
                 session.find(UserEntity.class, userId)
-                        .onItem().ifNull().failWith(() -> new NotFoundException("Utilisateur non trouvé"))
+                        .onItem().ifNull().failWith(() -> new NotFoundException("User not found"))
                         .flatMap(user ->
                                 session.find(LanguageEntity.class, languageId)
-                                        .onItem().ifNull().failWith(() -> new NotFoundException("Langage non trouvé"))
-                                        .flatMap(language ->
-                                                session.find(UserLanguageEntity.class, new UserLanguageId(userId, languageId))
-                                                        .flatMap(existing -> {
-                                                            if (existing != null) {
-                                                                existing.setNote(note);
-                                                                return Uni.createFrom().voidItem();
-                                                            } else {
-                                                                session.persist(new UserLanguageEntity(user, language, note));
-                                                                return Uni.createFrom().voidItem();
-                                                            }
-                                                        })
-                                        )
+                                        .onItem().ifNull().failWith(() -> new NotFoundException("Language not found"))
+                                        .flatMap(language -> {
+                                            UserLanguageId id = new UserLanguageId(userId, languageId);
+                                            return session.find(UserLanguageEntity.class, id)
+                                                    .flatMap(existing -> {
+                                                        if (existing != null) {
+                                                            return session.remove(existing)
+                                                                    .chain(() -> session.persist(UserLanguageEntity.withNote(user, language, note)));
+                                                        } else {
+                                                            return session.persist(UserLanguageEntity.withNote(user, language, note));
+                                                        }
+                                                    });
+                                        })
                         )
         );
     }

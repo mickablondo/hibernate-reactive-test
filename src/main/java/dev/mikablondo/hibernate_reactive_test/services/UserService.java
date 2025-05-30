@@ -1,5 +1,6 @@
 package dev.mikablondo.hibernate_reactive_test.services;
 
+import dev.mikablondo.hibernate_reactive_test.dto.NoteDTO;
 import dev.mikablondo.hibernate_reactive_test.dto.User;
 import dev.mikablondo.hibernate_reactive_test.dto.UserFilter;
 import dev.mikablondo.hibernate_reactive_test.dto.UserWithLangagesDTO;
@@ -117,14 +118,22 @@ public class UserService {
      * @param note        the note to be added
      * @return a Uni<Void> indicating the completion of the operation
      */
-    public Uni<Void> addNote(String userId, String languageId, Integer note) {
+    public Uni<Void> addNote(String userId, String languageId, NoteDTO note) {
+        validateNote(note);
         UUID userUUID = UUID.fromString(userId);
         UUID languageUUID = UUID.fromString(languageId);
+        return userRepository.addOrUpdateNote(userUUID, languageUUID, note.note());
+    }
 
-        if (note == null || note < 0 || note > 20) {
-            return Uni.createFrom().failure(new IllegalArgumentException("Note invalide"));
+    /**
+     * This method validates the note to ensure it is within the acceptable range.
+     *
+     * @param note the NoteDTO object to be validated
+     * @throws IllegalArgumentException if the note is invalid
+     */
+    private void validateNote(NoteDTO note) {
+        if (note == null || note.note() == null || note.note() < 0 || note.note() > 10) {
+            throw new IllegalArgumentException("Note invalide : doit être entre 0 et 10");
         }
-
-        return userRepository.addOrUpdateNote(userUUID, languageUUID, note);
     }
 }
