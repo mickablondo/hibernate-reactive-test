@@ -10,16 +10,16 @@ import java.util.UUID;
  * It contains fields for the language's ID, name, and note.
  * The class is immutable and uses a record to define its structure.
  */
-public record LangageNoteDTO(UUID id, String nom, Integer note) {
+public record LanguageNoteDTO(UUID id, String nom, Integer note) {
     /**
      * Converts a LangageEntity to a LangageNoteDTO.
      *
      * @param entity the LangageEntity to convert
      * @return a LangageNoteDTO containing the language's ID, name, and note
      */
-    public static LangageNoteDTO from(UserLanguageEntity entity) {
+    public static LanguageNoteDTO from(UserLanguageEntity entity) {
         LanguageEntity langage = entity.getLangage();
-        return new LangageNoteDTO(
+        return new LanguageNoteDTO(
                 langage.getId(),
                 langage.getNom(),
                 entity.getNote()

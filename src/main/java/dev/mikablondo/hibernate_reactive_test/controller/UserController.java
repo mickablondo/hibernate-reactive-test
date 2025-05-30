@@ -1,5 +1,6 @@
 package dev.mikablondo.hibernate_reactive_test.controller;
 
+import dev.mikablondo.hibernate_reactive_test.dto.NoteDTO;
 import dev.mikablondo.hibernate_reactive_test.dto.User;
 import dev.mikablondo.hibernate_reactive_test.dto.UserFilter;
 import dev.mikablondo.hibernate_reactive_test.dto.UserWithLangagesDTO;
@@ -70,5 +71,12 @@ public class UserController {
     @GetMapping("/{id}/notes")
     public Uni<UserWithLangagesDTO> getUserWithNotes(@PathVariable String id) {
         return userService.getUserWithNotes(id);
+    }
+
+    @PostMapping("/{userId}/languages/{languageId}")
+    public Uni<ResponseEntity<Void>> addNote(@RequestBody NoteDTO noteDto, @PathVariable String userId,
+                                             @PathVariable String languageId) {
+        return userService.addNote(userId, languageId, noteDto)
+                .map(v -> ResponseEntity.status(HttpStatus.CREATED).build());
     }
 }

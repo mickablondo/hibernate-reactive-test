@@ -29,4 +29,8 @@ public class UserLanguageEntity {
     private LanguageEntity langage;
 
     private Integer note;
+
+    public static UserLanguageEntity withNote(UserEntity user, LanguageEntity language, Integer note) {
+        return new UserLanguageEntity(user, language, note);
+    }
 }

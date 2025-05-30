@@ -1,5 +1,6 @@
 package dev.mikablondo.hibernate_reactive_test.services;
 
+import dev.mikablondo.hibernate_reactive_test.dto.NoteDTO;
 import dev.mikablondo.hibernate_reactive_test.dto.User;
 import dev.mikablondo.hibernate_reactive_test.dto.UserFilter;
 import dev.mikablondo.hibernate_reactive_test.dto.UserWithLangagesDTO;
@@ -101,10 +102,38 @@ public class UserService {
     /**
      * This method retrieves a user with its associated languages and notes by its ID.
      *
+     * @param id the ID of the user to be retrieved
      * @return a Uni<UserWithLangagesDTO> containing the user with languages and notes
      */
     public Uni<UserWithLangagesDTO> getUserWithNotes(String id) {
         return userRepository.findUserWithLangages(id)
                 .onItem().transform(UserWithLangagesDTO::from);
+    }
+
+    /**
+     * This method adds a note for a specific user and language.
+     *
+     * @param userId      the ID of the user
+     * @param languageId  the ID of the language
+     * @param note        the note to be added
+     * @return a Uni<Void> indicating the completion of the operation
+     */
+    public Uni<Void> addNote(String userId, String languageId, NoteDTO note) {
+        validateNote(note);
+        UUID userUUID = UUID.fromString(userId);
+        UUID languageUUID = UUID.fromString(languageId);
+        return userRepository.addOrUpdateNote(userUUID, languageUUID, note.note());
+    }
+
+    /**
+     * This method validates the note to ensure it is within the acceptable range.
+     *
+     * @param note the NoteDTO object to be validated
+     * @throws IllegalArgumentException if the note is invalid
+     */
+    private void validateNote(NoteDTO note) {
+        if (note == null || note.note() == null || note.note() < 0 || note.note() > 10) {
+            throw new IllegalArgumentException("Note invalide : doit être entre 0 et 10");
+        }
     }
 }

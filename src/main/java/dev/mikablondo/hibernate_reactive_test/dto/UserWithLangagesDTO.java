@@ -16,7 +16,7 @@ public record UserWithLangagesDTO(
         String prenom,
         Integer age,
         String metier,
-        List<LangageNoteDTO> langages
+        List<LanguageNoteDTO> langages
 ) {
     /**
      * Converts a UserEntity to a UserWithLangagesDTO.
@@ -32,7 +32,7 @@ public record UserWithLangagesDTO(
                 entity.getAge(),
                 entity.getMetier(),
                 entity.getLangages().stream()
-                        .map(LangageNoteDTO::from)
+                        .map(LanguageNoteDTO::from)
                         .toList()
         );
     }
