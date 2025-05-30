@@ -71,4 +71,11 @@ public class UserController {
     public Uni<UserWithLangagesDTO> getUserWithNotes(@PathVariable String id) {
         return userService.getUserWithNotes(id);
     }
+
+    @PostMapping("/{userId}/languages/{languageId}")
+    public Uni<ResponseEntity<Void>> addNote(@RequestBody Integer note, @PathVariable String userId,
+                                                         @PathVariable String languageId) {
+        return userService.addNote(userId, languageId, note)
+                .map(v -> ResponseEntity.status(HttpStatus.CREATED).build());
+    }
 }

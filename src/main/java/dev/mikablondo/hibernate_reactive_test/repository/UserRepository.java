@@ -1,7 +1,11 @@
 package dev.mikablondo.hibernate_reactive_test.repository;
 
+import com.github.dockerjava.api.exception.NotFoundException;
 import dev.mikablondo.hibernate_reactive_test.dto.UserFilter;
+import dev.mikablondo.hibernate_reactive_test.entity.LanguageEntity;
 import dev.mikablondo.hibernate_reactive_test.entity.UserEntity;
+import dev.mikablondo.hibernate_reactive_test.entity.UserLanguageEntity;
+import dev.mikablondo.hibernate_reactive_test.entity.UserLanguageId;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import lombok.RequiredArgsConstructor;
@@ -123,5 +127,36 @@ public class UserRepository {
                         .setParameter("id", UUID.fromString(id))
                         .getSingleResultOrNull()
         ).onItem().ifNotNull().transformToUni(user -> Uni.createFrom().item(user));
+    }
+
+    /**
+     * This method adds or updates a note for a user's programming language.
+     *
+     * @param userId      the ID of the user
+     * @param languageId  the ID of the programming language
+     * @param note        the note to be added or updated
+     * @return a Uni<Void> indicating the completion of the operation
+     */
+    public Uni<Void> addOrUpdateNote(UUID userId, UUID languageId, Integer note) {
+        return sessionFactory.withTransaction((session, tx) ->
+                session.find(UserEntity.class, userId)
+                        .onItem().ifNull().failWith(() -> new NotFoundException("Utilisateur non trouvé"))
+                        .flatMap(user ->
+                                session.find(LanguageEntity.class, languageId)
+                                        .onItem().ifNull().failWith(() -> new NotFoundException("Langage non trouvé"))
+                                        .flatMap(language ->
+                                                session.find(UserLanguageEntity.class, new UserLanguageId(userId, languageId))
+                                                        .flatMap(existing -> {
+                                                            if (existing != null) {
+                                                                existing.setNote(note);
+                                                                return Uni.createFrom().voidItem();
+                                                            } else {
+                                                                session.persist(new UserLanguageEntity(user, language, note));
+                                                                return Uni.createFrom().voidItem();
+                                                            }
+                                                        })
+                                        )
+                        )
+        );
     }
 }

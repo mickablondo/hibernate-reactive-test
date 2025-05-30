@@ -101,10 +101,30 @@ public class UserService {
     /**
      * This method retrieves a user with its associated languages and notes by its ID.
      *
+     * @param id the ID of the user to be retrieved
      * @return a Uni<UserWithLangagesDTO> containing the user with languages and notes
      */
     public Uni<UserWithLangagesDTO> getUserWithNotes(String id) {
         return userRepository.findUserWithLangages(id)
                 .onItem().transform(UserWithLangagesDTO::from);
+    }
+
+    /**
+     * This method adds a note for a specific user and language.
+     *
+     * @param userId      the ID of the user
+     * @param languageId  the ID of the language
+     * @param note        the note to be added
+     * @return a Uni<Void> indicating the completion of the operation
+     */
+    public Uni<Void> addNote(String userId, String languageId, Integer note) {
+        UUID userUUID = UUID.fromString(userId);
+        UUID languageUUID = UUID.fromString(languageId);
+
+        if (note == null || note < 0 || note > 20) {
+            return Uni.createFrom().failure(new IllegalArgumentException("Note invalide"));
+        }
+
+        return userRepository.addOrUpdateNote(userUUID, languageUUID, note);
     }
 }

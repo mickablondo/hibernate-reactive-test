@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * This class represents a UserLanguage entity in the database.
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "utilisateur_langage")
