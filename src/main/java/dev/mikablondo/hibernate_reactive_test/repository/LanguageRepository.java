@@ -41,12 +41,4 @@ public class LanguageRepository {
                         .collect().asList()
         ).onItem().transformToMulti(Multi.createFrom()::iterable);
     }
-
-    /*public Multi<LanguageEntity> getAllLanguages2() {
-        return sessionFactory.withSession(session ->
-                session.createQuery("from LanguageEntity", LanguageEntity.class)
-                        .getResults() // renvoie un Multi<Post> réactif
-                        .convert().with(toFlux()) // transforme le Multi en Flux Reactor
-        );
-    }*/
 }
